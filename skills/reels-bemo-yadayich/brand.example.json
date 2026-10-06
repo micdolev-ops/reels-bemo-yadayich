@@ -1,0 +1,13 @@
+{
+  "business": "שם העסק",
+  "handle": "@instagram.handle",
+  "address": "female",
+  "colors": { "background": "#FBF8F2", "primary": "#4A3463", "accent": "#C9A86A", "text": "#3F3846" },
+  "fonts": {
+    "heavy": { "family": "Karantina", "package": "karantina", "weight": 700 },
+    "thin": { "family": "Heebo", "package": "heebo", "weight": 200 }
+  },
+  "logo": "",
+  "sound": "quiet",
+  "notes": []
+}

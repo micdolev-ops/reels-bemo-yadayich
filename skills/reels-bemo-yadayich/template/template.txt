@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="he" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="gsap.min.js"></script>
+    <style>
+%%FONTFACES%%
+      :root { --bg: %%BG%%; --primary: %%PRIMARY%%; --accent: %%ACCENT%%; --text: %%TEXT%%; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+
+      /* the speaker, already composited on the brand background (cutout.sh) */
+      #me { position: absolute; left: 0; top: %%SUBJECT_TOP%%px; width: 1080px; height: 1920px; }
+      #mev { position: absolute; inset: 0; width: 1080px; height: 1920px; transform-origin: 540px 1250px; }
+
+      /* captions in the top band, never over the face */
+      .cap { position: absolute; left: 60px; right: 60px; top: 90px; height: 400px; display: flex; flex-direction: column;
+             justify-content: center; text-align: center; direction: rtl; }
+      .cap.hook { top: 50px; height: 330px; }
+      .row { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; column-gap: 22px; direction: rtl; }
+      .heavy-row { margin: 4px 0; }
+      .w { display: inline-block; opacity: 0; white-space: nowrap; }
+      .thin { font-family: "%%THIN_FAMILY%%", sans-serif; font-weight: %%THIN_WEIGHT%%; font-size: 78px; color: var(--text); }
+      .heavy { font-family: "%%HEAVY_FAMILY%%", sans-serif; font-weight: %%HEAVY_WEIGHT%%; font-size: 150px; line-height: 0.95; color: var(--primary); }
+      .cap.hook .thin { font-size: 64px; }
+      .cap.hook .heavy { font-size: 104px; }
+      .accent { color: var(--accent); }
+
+      /* cutaways: edge to edge, from under the captions to the bottom of the frame */
+      .card { position: absolute; left: 0; top: 560px; width: 1080px; height: 1360px; border-radius: 44px 44px 0 0; overflow: hidden; opacity: 0;
+              box-shadow: 0 30px 60px rgba(0,0,0,0.18); }
+      .card video, .card img { position: absolute; inset: 0; width: 1080px; height: 1360px; object-fit: cover; }
+
+      /* call to action, kept above the area Instagram covers with the caption (y < 1660) */
+      #cta { position: absolute; left: 70px; top: 1420px; display: flex; opacity: 0; }
+      #cta span { font-family: "%%THIN_FAMILY%%", sans-serif; font-weight: 400; font-size: 54px; color: var(--bg); background: var(--primary);
+                  direction: rtl; padding: 24px 52px; border-radius: 28px; box-shadow: 0 16px 34px rgba(0,0,0,0.22); }
+      #arrow { position: absolute; left: 664px; top: 1365px; width: 400px; height: 147px; overflow: visible; }
+      #arrow path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+      #arrow .under { stroke: var(--bg); stroke-width: 22; }
+      #arrow .over { stroke: var(--accent); stroke-width: 10; }
+
+      #logo { position: absolute; left: 200px; top: 620px; width: 680px; height: 680px; object-fit: contain; opacity: 0; }
+%%CUSTOM_CSS%%
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="%%DUR%%" data-width="1080" data-height="1920">
+      <div id="me"><video id="mev" src="%%SUBJECT%%" muted playsinline data-start="0" data-duration="%%SUBJECT_DUR%%" data-track-index="1"></video></div>
+%%CUSTOM_HTML%%
+%%BROLL%%
+%%CTA%%
+%%LOGO%%
+%%CAPS%%
+    </div>
+    <script>
+      const T = %%TL%%;
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // captions: the thin row eases in, heavy words land one by one with the speech
+      T.caps.forEach((c, i) => {
+        const cap = document.getElementById("cap" + i);
+        cap.querySelectorAll(".w").forEach(w => {
+          const t = +w.dataset.t;
+          if (w.classList.contains("thin"))
+            tl.fromTo(w, { opacity: 0, y: 18, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "power2.out" }, t);
+          else
+            tl.fromTo(w, { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.22, ease: "power3.out" }, t);
+        });
+        tl.to(cap, { opacity: 0, y: -20, duration: 0.18, ease: "power1.in" }, c.end - 0.18);
+      });
+
+      // big framing for the hook and the call to action; switch it under a cutaway so nobody sees the jump
+      tl.set("#me", { transformOrigin: `540px ${T.bigOrigin}px` }, 0);
+      T.big.forEach(([a, b]) => {
+        tl.set("#me", { y: T.bigY, scale: T.bigScale }, a);
+        if (b !== null) tl.set("#me", { y: 0, scale: 1 }, b);
+      });
+
+      // joins between takes: the dissolve is baked in by join.py, a short blur hides what is left
+      tl.set("#mev", { scale: 1.04 }, 0);
+      T.joins.forEach(t => {
+        tl.fromTo("#mev", { filter: "blur(0px)" }, { filter: "blur(9px)", duration: 0.14, ease: "power1.in", immediateRender: false }, t - 0.06);
+        tl.to("#mev", { filter: "blur(0px)", duration: 0.22, ease: "power1.out" }, t + 0.08);
+      });
+
+      // cutaways: soft crossfade; a card followed straight away by another stays underneath until covered
+      T.broll.forEach(([id, a, b], k) => {
+        const next = T.broll[k + 1], covered = next && next[1] - b < 0.05;
+        tl.fromTo("#" + id, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "sine.inOut", immediateRender: false }, a - 0.2);
+        tl.fromTo(`#${id} .m`, { scale: 1 }, { scale: 1.06, duration: b - a + 0.6, ease: "none" }, a - 0.2);
+        if (covered) tl.set("#" + id, { opacity: 0 }, b + 0.25);
+        else tl.to("#" + id, { opacity: 0, duration: 0.4, ease: "sine.inOut" }, b - 0.05);
+      });
+
+      if (T.cta) {
+        // the arrow's tip lands just past the button's right edge, whatever the length of the text
+        const box = document.querySelector("#cta span"), arrow = document.getElementById("arrow");
+        if (box && arrow) arrow.style.left = Math.min(70 + box.offsetWidth - 6, 1080 - 400) + "px";
+        tl.fromTo("#cta", { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, T.cta.at);
+        if (T.cta.arrow) {
+          tl.to(["#ushaft", "#ashaft"], { strokeDashoffset: 0, duration: 0.95, ease: "power1.inOut" }, T.cta.at + 0.35);
+          tl.to(["#uhead", "#ahead"], { strokeDashoffset: 0, duration: 0.22, ease: "power1.out" }, T.cta.at + 1.25);
+        }
+        tl.to(["#cta", "#arrow"], { opacity: 0, duration: 0.5, ease: "sine.inOut" }, T.cta.until);
+      }
+      if (T.end) tl.to("#me", { opacity: 0, duration: 0.7, ease: "sine.inOut" }, T.end);
+      if (T.logo !== null) tl.fromTo("#logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: "sine.out" }, T.logo);
+
+      // the reel's own idea (custom.js): one effect that illustrates a word
+%%CUSTOM_JS%%
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

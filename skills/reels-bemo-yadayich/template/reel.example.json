@@ -1,0 +1,75 @@
+{
+  "duration": 12.0,
+  "subject": {
+    "src": "media/subject.mp4",
+    "top": 80,
+    "duration": 11.2
+  },
+  "big": [
+    [
+      0,
+      3.9
+    ],
+    [
+      5.9,
+      null
+    ]
+  ],
+  "bigScale": 1.4,
+  "bigY": -310,
+  "bigOrigin": 1320,
+  "joins": [],
+  "captions": [
+    {
+      "start": 0.1,
+      "end": 3.0,
+      "rows": [
+        {
+          "kind": "thin",
+          "words": [
+            {
+              "t": 0.15,
+              "text": "בכל עיצוב"
+            }
+          ]
+        },
+        {
+          "kind": "heavy",
+          "words": [
+            {
+              "t": 0.9,
+              "text": "את ממציאה את"
+            },
+            {
+              "t": 1.9,
+              "text": "הגלגל",
+              "accent": true
+            },
+            {
+              "t": 2.2,
+              "text": "מחדש"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "broll": [
+    {
+      "src": "media/b1.mp4",
+      "start": 3.7,
+      "end": 6.2,
+      "len": 3.0
+    }
+  ],
+  "cta": {
+    "text": "לקבלת המתנה",
+    "at": 8.0,
+    "until": 10.2,
+    "arrow": true
+  },
+  "fadeOut": 10.4,
+  "logo": {
+    "at": 11.0
+  }
+}
