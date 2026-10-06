@@ -1,5 +1,7 @@
 # Third-party notices
 
+The skill itself is under the Personal Use License in `LICENSE`. The third-party material below stays under its own licenses.
+
 ## Emil Kowalski, skills (MIT)
 Parts of `references/motion.md` (the animation decision order, easing curves, durations and the effect glossary)
 are adapted and translated from https://github.com/emilkowalski/skills (skills `animate`, `animation-vocabulary`,

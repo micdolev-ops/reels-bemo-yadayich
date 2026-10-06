@@ -1,21 +1,49 @@
-MIT License
+Personal Use License / רישיון שימוש אישי
+"Reels Bemo Yadayich" (רילים במו ידייך)
 
-Copyright (c) 2026 מיכל אלגרבלי (במו ידייך, @michalcreates.il)
+Copyright (c) 2026 Michal Elgrabli (מיכל אלגרבלי), Bemo Yadayich (במו ידייך), @michalcreates.il
+All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ENGLISH
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+1. Permitted. You may install and use this skill for your own personal and business
+   needs (editing your own reels), and make private changes to your own copy for that use.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+2. Not permitted, without the prior written permission of the author: copying or sharing
+   the skill or any part of it with others (including in groups, chats, courses, or code
+   repositories), publishing, uploading, redistributing, selling, renting or licensing it,
+   including it in a product, service or course, publishing a modified version of it, or
+   presenting it as your own work.
+
+3. Third-party material. The sound effects in assets/sfx (CC0) and the notices listed in
+   NOTICE.md (for example material under the MIT license by Emil Kowalski) remain under
+   their own licenses. This license applies only to the original work of the author.
+
+4. No warranty. The skill is provided free, "AS IS", without warranty of any kind, express
+   or implied. Use is at your own risk, including the installation of software and the
+   running of commands on your computer by Claude Code. The author is not liable for any
+   damage, loss of files or data, cost, or any other claim arising from its use. Back up
+   important files before use.
+
+5. The author may end this permission at any time if the terms are breached.
+
+עברית
+
+1. מותר: להתקין את הסקיל ולהשתמש בו לצרכים האישיים והעסקיים שלך (עריכת הרילים שלך),
+   ולבצע שינויים פרטיים בעותק שלך לצורך זה.
+
+2. אסור, בלי אישור מראש ובכתב מהיוצרת: להעתיק או לשתף את הסקיל או חלק ממנו עם אחרים
+   (כולל בקבוצות, בצ׳אטים, בקורסים או במאגרי קוד), לפרסם, להעלות, להפיץ, למכור, להשכיר
+   או לתת רישיון עליו, לכלול אותו במוצר, בשירות או בקורס, לפרסם גרסה ערוכה שלו, או
+   להציג אותו כיצירה שלך.
+
+3. חומרים של אחרים: הצלילים ב-assets/sfx (CC0) והחומרים שמפורטים ב-NOTICE.md (למשל חומר
+   ברישיון MIT של Emil Kowalski) נשארים ברישיונותיהם. הרישיון הזה חל על היצירה המקורית
+   של היוצרת בלבד.
+
+4. ללא אחריות: הסקיל ניתן במתנה, כמו שהוא (AS IS), בלי אחריות מכל סוג. השימוש בו הוא
+   על אחריותך בלבד, כולל התקנת תוכנות והרצת פקודות במחשב שלך על ידי Claude Code. היוצרת
+   אינה אחראית לכל נזק, אובדן קבצים או מידע, עלות או תביעה הנובעים מהשימוש בו. מומלץ
+   לגבות קבצים חשובים לפני השימוש.
+
+5. היוצרת רשאית לבטל את ההרשאה בכל עת אם התנאים הופרו.
