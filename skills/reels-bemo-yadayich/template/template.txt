@@ -15,10 +15,10 @@
       #me { position: absolute; left: 0; top: %%SUBJECT_TOP%%px; width: 1080px; height: 1920px; }
       #mev { position: absolute; inset: 0; width: 1080px; height: 1920px; transform-origin: 540px 1250px; }
 
-      /* captions in the top band, never over the face */
-      .cap { position: absolute; left: 60px; right: 60px; top: 90px; height: 400px; display: flex; flex-direction: column;
+      /* captions in the top band, never over the face. Instagram draws its "Reels / Friends" header over y < ~170 with a dark gradient below it, so no text above y=260 */
+      .cap { position: absolute; left: 60px; right: 60px; top: 290px; height: 330px; display: flex; flex-direction: column;
              justify-content: center; text-align: center; direction: rtl; }
-      .cap.hook { top: 50px; height: 330px; }
+      .cap.hook { top: 280px; height: 300px; }
       .row { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; column-gap: 22px; direction: rtl; }
       .heavy-row { margin: 4px 0; }
       .w { display: inline-block; opacity: 0; white-space: nowrap; }
@@ -27,7 +27,7 @@
       .cap.hook .thin { font-size: 64px; }
       .cap.hook .heavy { font-size: 104px; }
       /* no speaker on screen: a caption with no cutaway under it moves to the middle and grows */
-      .cap.solo { top: 520px; height: 820px; }
+      .cap.solo { top: 560px; height: 760px; }
       .cap.solo .thin { font-size: 88px; }
       .cap.solo .heavy { font-size: 176px; }
 
@@ -38,16 +38,16 @@
       #glow2 { left: 360px; top: 980px; width: 1000px; height: 1000px; background: radial-gradient(closest-side, var(--primary), transparent); opacity: 0.10; }
       .accent { color: var(--accent); }
 
-      /* cutaways: edge to edge, from under the captions to the bottom of the frame */
-      .card { position: absolute; left: 0; top: 560px; width: 1080px; height: 1360px; border-radius: 44px 44px 0 0; overflow: hidden; opacity: 0;
+      /* cutaways: edge to edge, from under the captions (y=680) to the bottom of the frame */
+      .card { position: absolute; left: 0; top: 680px; width: 1080px; height: 1240px; border-radius: 44px 44px 0 0; overflow: hidden; opacity: 0;
               box-shadow: 0 30px 60px rgba(0,0,0,0.18); }
-      .card video, .card img { position: absolute; inset: 0; width: 1080px; height: 1360px; object-fit: cover; }
+      .card video, .card img { position: absolute; inset: 0; width: 1080px; height: 1240px; object-fit: cover; }
 
       /* call to action, kept above the area Instagram covers with the caption (y < 1660) */
-      #cta { position: absolute; left: 70px; top: 1420px; display: flex; opacity: 0; }
+      #cta { position: absolute; left: 70px; top: 1500px; display: flex; opacity: 0; }
       #cta span { font-family: "%%THIN_FAMILY%%", sans-serif; font-weight: 400; font-size: 54px; color: var(--bg); background: var(--primary);
                   direction: rtl; padding: 24px 52px; border-radius: 28px; box-shadow: 0 16px 34px rgba(0,0,0,0.22); }
-      #arrow { position: absolute; left: 664px; top: 1365px; width: 400px; height: 147px; overflow: visible; }
+      #arrow { position: absolute; left: 664px; top: 1445px; width: 400px; height: 147px; overflow: visible; }
       #arrow path { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
       #arrow .under { stroke: var(--bg); stroke-width: 22; }
       #arrow .over { stroke: var(--accent); stroke-width: 10; }

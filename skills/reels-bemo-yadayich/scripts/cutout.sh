@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # Removes the background behind the speaker and lays her on the brand background, lower in
 # the frame, so the top third is free for captions.
-# Usage: cutout.sh <project-dir> <clip.mp4> [top-offset-px=560]
+# Usage: cutout.sh <project-dir> <clip.mp4> [top-offset-px=700]
 # Writes <project>/media/subject.mp4 (opaque, renders fast). Takes about 1s per frame on CPU.
 # A transparent webm placed straight into the template renders far too slowly, so we composite here.
 set -euo pipefail
-PROJ="$1"; CLIP="$2"; TOP="${3:-560}"
+PROJ="$1"; CLIP="$2"; TOP="${3:-700}"
 cd "$PROJ"
 BG=$(python3 -c "import json;print(json.load(open('brand.json',encoding='utf8'))['colors']['background'].lstrip('#'))")
 npx hyperframes remove-background "$CLIP" -o media/subject.webm --device cpu
