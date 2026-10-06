@@ -26,6 +26,16 @@
       .heavy { font-family: "%%HEAVY_FAMILY%%", sans-serif; font-weight: %%HEAVY_WEIGHT%%; font-size: 150px; line-height: 0.95; color: var(--primary); }
       .cap.hook .thin { font-size: 64px; }
       .cap.hook .heavy { font-size: 104px; }
+      /* no speaker on screen: a caption with no cutaway under it moves to the middle and grows */
+      .cap.solo { top: 520px; height: 820px; }
+      .cap.solo .thin { font-size: 88px; }
+      .cap.solo .heavy { font-size: 176px; }
+
+      /* no speaker on screen: two soft brand-colour glows drift behind the text, so the frame is never flat */
+      #bgfx { position: absolute; inset: 0; overflow: hidden; }
+      #bgfx div { position: absolute; border-radius: 50%; }
+      #glow1 { left: -260px; top: 180px; width: 1100px; height: 1100px; background: radial-gradient(closest-side, var(--accent), transparent); opacity: 0.16; }
+      #glow2 { left: 360px; top: 980px; width: 1000px; height: 1000px; background: radial-gradient(closest-side, var(--primary), transparent); opacity: 0.10; }
       .accent { color: var(--accent); }
 
       /* cutaways: edge to edge, from under the captions to the bottom of the frame */
@@ -48,7 +58,7 @@
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="%%DUR%%" data-width="1080" data-height="1920">
-      <div id="me"><video id="mev" src="%%SUBJECT%%" muted playsinline data-start="0" data-duration="%%SUBJECT_DUR%%" data-track-index="1"></video></div>
+%%SUBJECT_HTML%%
 %%CUSTOM_HTML%%
 %%BROLL%%
 %%CTA%%
@@ -59,6 +69,13 @@
       const T = %%TL%%;
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
+      const ME = document.getElementById("me");
+
+      // no speaker: the glows drift slowly for the whole reel
+      if (document.getElementById("bgfx")) {
+        tl.fromTo("#glow1", { x: 0, y: 0, scale: 1 }, { x: 160, y: 120, scale: 1.12, duration: T.dur, ease: "sine.inOut" }, 0);
+        tl.fromTo("#glow2", { x: 0, y: 0, scale: 1.1 }, { x: -180, y: -140, scale: 1, duration: T.dur, ease: "sine.inOut" }, 0);
+      }
 
       // captions: the thin row eases in, heavy words land one by one with the speech
       T.caps.forEach((c, i) => {
@@ -74,18 +91,20 @@
       });
 
       // big framing for the hook and the call to action; switch it under a cutaway so nobody sees the jump
-      tl.set("#me", { transformOrigin: `540px ${T.bigOrigin}px` }, 0);
-      T.big.forEach(([a, b]) => {
-        tl.set("#me", { y: T.bigY, scale: T.bigScale }, a);
-        if (b !== null) tl.set("#me", { y: 0, scale: 1 }, b);
-      });
+      if (ME) {
+        tl.set("#me", { transformOrigin: `540px ${T.bigOrigin}px` }, 0);
+        T.big.forEach(([a, b]) => {
+          tl.set("#me", { y: T.bigY, scale: T.bigScale }, a);
+          if (b !== null) tl.set("#me", { y: 0, scale: 1 }, b);
+        });
 
-      // joins between takes: the dissolve is baked in by join.py, a short blur hides what is left
-      tl.set("#mev", { scale: 1.04 }, 0);
-      T.joins.forEach(t => {
-        tl.fromTo("#mev", { filter: "blur(0px)" }, { filter: "blur(9px)", duration: 0.14, ease: "power1.in", immediateRender: false }, t - 0.06);
-        tl.to("#mev", { filter: "blur(0px)", duration: 0.22, ease: "power1.out" }, t + 0.08);
-      });
+        // joins between takes: the dissolve is baked in by join.py, a short blur hides what is left
+        tl.set("#mev", { scale: 1.04 }, 0);
+        T.joins.forEach(t => {
+          tl.fromTo("#mev", { filter: "blur(0px)" }, { filter: "blur(9px)", duration: 0.14, ease: "power1.in", immediateRender: false }, t - 0.06);
+          tl.to("#mev", { filter: "blur(0px)", duration: 0.22, ease: "power1.out" }, t + 0.08);
+        });
+      }
 
       // cutaways: soft crossfade; a card followed straight away by another stays underneath until covered
       T.broll.forEach(([id, a, b], k) => {
@@ -107,7 +126,7 @@
         }
         tl.to(["#cta", "#arrow"], { opacity: 0, duration: 0.5, ease: "sine.inOut" }, T.cta.until);
       }
-      if (T.end) tl.to("#me", { opacity: 0, duration: 0.7, ease: "sine.inOut" }, T.end);
+      if (T.end && ME) tl.to("#me", { opacity: 0, duration: 0.7, ease: "sine.inOut" }, T.end);
       if (T.logo !== null) tl.fromTo("#logo", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.8, ease: "sine.out" }, T.logo);
 
       // the reel's own idea (custom.js): one effect that illustrates a word
